@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven 'Maven'
-        nodejs 'NodeJs'
+        nodejs 'NodeJS'
     }
   stages {
    stage ('Initial') {
@@ -31,9 +31,9 @@ pipeline {
            steps{
                figlet 'SonarQube'
                script{
-                   def scannerHome = tool 'SonarQube Scanner'
+                   def scannerHome = tool 'Sonar'
                    
-                   withSonarQubeEnv('Sonar Server'){
+                   withSonarQubeEnv('sonarqube'){
                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ms-maven -Dsonar.sources=. -Dsonar.projectBaseDir=${env.WORKSPACE} -Dsonar.java.binaries=target/classes -Dsonar.exclusions='**/*/test/**/*, **/*/acceptance-test/**/*, **/*.html'"
                    }
                }
