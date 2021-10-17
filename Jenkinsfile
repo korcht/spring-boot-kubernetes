@@ -5,7 +5,9 @@ pipeline {
         maven 'Maven'
         nodejs 'NodeJs'
     }
-  
+  //------------------------------
+  //----ETAPA INICIO
+  //------------------------------  
     stages {
         stage('initial'){
             steps{
@@ -17,21 +19,27 @@ pipeline {
               '''
             }
         }
-
+  //------------------------------
+  //----ETAPA COMPILADO
+  //------------------------------
         stage('Compile'){
             steps{
                 figlet 'Compile'
                 sh 'mvn clean compile -e'
             }
         }
-        
+  //------------------------------
+  //----ETAPA TEST
+  //------------------------------      
         stage('Prueba'){
             steps{
                 figlet 'Prueba'
                 sh 'mvn clean prueba -e'
             }
         }
-        
+  //------------------------------
+  //----SONAR SCANNER
+  //------------------------------     
          
         stage('Sonarqube'){
            steps{
