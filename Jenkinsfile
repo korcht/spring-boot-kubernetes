@@ -34,7 +34,7 @@ pipeline {
 
                    withSonarQubeEnv('sonarqube'){
                        
-                       sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=t5sca -Dsonar.sources=. -Dsonar.projectBaseDir=${env.WORKSPACE} -Dsonar.java.binaries=target/classes -Dsonar.exclusions='**/*/test/**/*, **/*/acceptance-test/**/*, **/*.html'"
+                       sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=DAST -Dsonar.sources=. -Dsonar.projectBaseDir=${env.WORKSPACE} -Dsonar.java.binaries=target/classes -Dsonar.exclusions='**/*/test/**/*, **/*/acceptance-test/**/*, **/*.html'"
                    }
                }
            }
