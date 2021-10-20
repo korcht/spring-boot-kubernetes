@@ -51,7 +51,7 @@ pipeline {
     //    		    sh '${DOCKER_EXEC} rm -f zap2'
         		    sh "${DOCKER_EXEC} pull owasp/zap2docker-stable"
                             sh '${DOCKER_EXEC} run --add-host="localhost:192.168.1.98" --rm -e LC_ALL=C.UTF-8 -e LANG=C.UTF-8 --name zap2 -u zap -p 8089:8089 -d owasp/zap2docker-stable zap.sh -daemon -port 8089 -host 0.0.0.0 -config api.disablekey=true'
-                            sh '${DOCKER_EXEC} run --add-host="localhost:192.168.1.98" -v /Users/claud/Documents/DevSecOps/Taller/jenkins_home/tools:/zap/wrk/:rw --rm -i owasp/zap2docker-stable zap-baseline.py -t "http://zero.webappsecurity.com" -I -r zap_baseline_report.html -l PASS'	
+                            sh '${DOCKER_EXEC} run --add-host="localhost:192.168.1.98" -v /Users/claud/Documents/DevSecOps/Practica/jenkins_home/tools:/zap/wrk/:rw --rm -i owasp/zap2docker-stable zap-baseline.py -t "http://zero.webappsecurity.com" -I -r zap_baseline_report.html -l PASS'	
         		   
         		   publishHTML([
         				    allowMissing: false,
