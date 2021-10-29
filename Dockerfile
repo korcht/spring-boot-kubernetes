@@ -1,8 +1,3 @@
-RUN mkdir /home/.sonar
-RUN chmod 777 /home/.sonar
-ENV SONAR_USER_HOME=/home/.sonar
-
-
 FROM openjdk:8-jdk-alpine
 MAINTAINER Phea Soy
 VOLUME [ "/tmp" ]
