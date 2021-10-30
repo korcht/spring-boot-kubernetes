@@ -39,7 +39,22 @@ pipeline {
                }
            }
         }
-         stage('Scan Docker'){
+     
+      stage('Instalar Dependencias') {
+          steps {
+            //Install dependecies
+              sh 'npm install -g yarn'
+              sh 'yarn install'
+         }
+        }
+      stage('SCA') {
+        steps {
+            // Run OWASP Dependency Check
+            dependencyCheck additionalArguments: '-f "HTML, XML,CSV" -s .'
+        }
+      }   
+      
+      stage('Scan Docker'){
             steps{
                 figlet 'Containers Security'
                 script{
