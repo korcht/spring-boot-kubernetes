@@ -19,7 +19,14 @@ pipeline {
                  sh 'mvn clean compile -e'
             }
         }
-
+        stage('SCA'){
+            steps{
+                figlet 'Dependency-Check'
+                sh 'mvn org.owasp:dependency-check-maven:check'
+                
+                archiveArtifacts artifacts: 'target/dependency-check-report.html', followSymlinks: false
+            }
+        }
         stage('Sonarqube'){
            steps{
                figlet 'SonarQube'
@@ -32,24 +39,7 @@ pipeline {
                }
            }
         }
-     
-      stage('Instalar Dependencias') {
-          steps {
-            //Install dependecies
-              sh 'npm install -g yarn'
-              sh 'yarn install'
-         }
-        }
-        stage('SCA'){
-            steps{
-                figlet 'Dependency-Check'
-                sh 'mvn org.owasp:dependency-check-maven:check'
-                
-                archiveArtifacts artifacts: 'target/dependency-check-report.html', followSymlinks: false
-            }
-        } 
-      
-      stage('Scan Docker'){
+         stage('Scan Docker'){
             steps{
                 figlet 'Containers Security'
                 script{
@@ -75,8 +65,8 @@ pipeline {
         	
         		    sh '${DOCKER_EXEC} rm -f zap2'
         		    sh "${DOCKER_EXEC} pull owasp/zap2docker-stable"
-                    sh '${DOCKER_EXEC} run --add-host="localhost:172.19.0.1" --rm -e LC_ALL=C.UTF-8 -e LANG=C.UTF-8 --name zap2 -u zap -p 8090:8090 -d owasp/zap2docker-stable zap.sh -daemon -port 8090 -host 0.0.0.0 -config api.disablekey=true'
-                    sh '${DOCKER_EXEC} run --add-host="localhost:172.19.0.1" --user $(id -u):$(id -g) -v /Users/claud/Documents/DevSecOps/Practica/jenkins/jenkins_home/tools:/zap/wrk/ --rm -i owasp/zap2docker-stable zap-full-scan.py -t "https://zero.webappsecurity.com/" -I -r zap_full_report.html -l PASS'
+                    sh '${DOCKER_EXEC} run --add-host="localhost:172.18.0.1" --rm -e LC_ALL=C.UTF-8 -e LANG=C.UTF-8 --name zap2 -u zap -p 8090:8090 -d owasp/zap2docker-stable zap.sh -daemon -port 8090 -host 0.0.0.0 -config api.disablekey=true'
+                    sh '${DOCKER_EXEC} run --add-host="localhost:172.18.0.1" --user $(id -u):$(id -g) -v /Users/claud/Documents/DevSecOps/Practica/jenkins_home/tools:/zap/wrk/ --rm -i owasp/zap2docker-stable zap-full-scan.py -t "https://zero.webappsecurity.com/" -I -r zap_full_report.html -l PASS'
                     
                     
         		   
