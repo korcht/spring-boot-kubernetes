@@ -39,21 +39,7 @@ pipeline {
                }
            }
         }
-         stage('Scan Docker'){
-            steps{
-                figlet 'Containers Security'
-                script{
-                    env.DOCKER = tool "Docker"
-        			env.DOCKER_EXEC = "${DOCKER}/bin/docker"
-
-                    sh '''
-                    ${DOCKER_EXEC} run --rm -v $(pwd):/root/.cache/ aquasec/trivy python:3.4-alpine
-                    '''
-                    sh '${DOCKER_EXEC} rmi aquasec/trivy'
-                     }
-                  }
-            }
-
+        
          stage('DAST'){
             steps{
                 figlet 'Owasp Zap DAST'
@@ -81,5 +67,19 @@ pipeline {
         		}
             }
         }
+            stage('Scan Docker'){
+            steps{
+                figlet 'Containers Security'
+                script{
+                    env.DOCKER = tool "Docker"
+        			env.DOCKER_EXEC = "${DOCKER}/bin/docker"
+
+                    sh '''
+                    ${DOCKER_EXEC} run --rm -v $(pwd):/root/.cache/ aquasec/trivy python:3.4-alpine
+                    '''
+                    sh '${DOCKER_EXEC} rmi aquasec/trivy'
+                     }
+                  }
+            }
     }
 }
